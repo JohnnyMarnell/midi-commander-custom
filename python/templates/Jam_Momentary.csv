@@ -16,11 +16,9 @@ Long_Press_ms,500
 LED_Brightness,100
 LED_Rest_Brightness,25
 Bank_Jump_Step,10
-Bank_Switch_Mode,Bank
 Bank_Switch_Mode,MIDI only
 Global_Channel,3
 Edit_Lock,Y
-Remember_State,N
 Boot_Banner,Off
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 * Bank_Naming,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

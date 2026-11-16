@@ -75,13 +75,26 @@ def build():
 
     full_range_pedals(d)
 
-    settings = global_settings("Jam Momentary", CHANNEL, EXP1_CC, EXP2_CC, extra=(
+    # global_settings already emits some of these, Bank_Switch_Mode among them,
+    # so they are overridden in place: a second row with the same label makes
+    # the packer take the wrong one, which silently leaves the bank switches
+    # on Bank+MIDI and kills their momentary hold.
+    ours = (
         ("Bank_Switch_Mode", "MIDI only"),   # the bank switches never change bank
         ("Global_Channel", CHANNEL),         # everything on one channel, pedals included
         ("Edit_Lock", "Y"),                  # no on-pedal editor under a foot
         ("Remember_State", "N"),             # nothing carried across a power cycle
         ("Boot_Banner", "Off"),
-    ))
+    )
+    settings = global_settings("Jam Momentary", CHANNEL, EXP1_CC, EXP2_CC)
+    for label, value in ours:
+        if (settings["Label"] == label).any():
+            settings.loc[settings["Label"] == label, "Value"] = value
+        else:
+            settings.loc[len(settings)] = {"Label": label, "Value": value}
+
+    duplicated = settings["Label"].duplicated()
+    assert not duplicated.any(), list(settings.loc[duplicated, "Label"])
     return d, names, settings
 
 
